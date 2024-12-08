@@ -1,0 +1,48 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+
+# Директории среды
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# Системные файлы
+.DS_Store
+*.bak
+
+# Файлы базы данных
+*.sqlite3
+*.db
+*.db-journal
+
+# Папка с миграциями (если не требуется)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/*.pyd
+*/migrations/00*.py
+
+# Данные, сгенерированные в процессе разработки
+*.log
+
+# Конфигурации IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Docker
+docker-compose.override.yml
+*.env
+
+# Папка с файлами тестирования
+coverage/
+*.cover
+*.egg-info/
+dist/
+build/
