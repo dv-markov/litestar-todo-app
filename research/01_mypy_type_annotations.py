@@ -78,4 +78,53 @@ def normalize_id(user_id: int | str) -> str:
 
 
 print(normalize_id(55))
-print(normalize_id(55))
+print(normalize_id("user-01"))
+
+
+# Local type inference
+def nums_below(numbers: Iterable[float], limit: float) -> list[float]:
+    output = []
+    for num in numbers:
+        if num < limit:
+            output.append(num)
+    return output
+
+
+print(nums_below(range(100), 5.1))
+
+
+# Types from libraries
+# Mypy can also understand how to work with types from libraries that you use.
+# For instance, mypy comes out of the box with an intimate knowledge of the Python standard library.
+# For example, here is a function which uses the Path object from the pathlib standard library module:
+from pathlib import Path
+
+
+def load_template(template_path: Path, name: str) -> str:
+    # Mypy knows that `template_path` has a `read_text` method that returns a str
+    template = template_path.read_text() + 'USERNAME'
+    # ...so it understands this line type checks
+    return template.replace('USERNAME', name)
+
+
+print(load_template(Path('/dev/null'), 'template.html'))
+
+# If a third party library you use declares support for type checking, mypy will type check your use of that library
+# based on the type hints it contains.
+#
+# However, if the third party library does not have type hints, mypy will complain about missing type information.
+#
+# prog.py:1: error: Library stubs not installed for "yaml"
+# prog.py:1: note: Hint: "python3 -m pip install types-PyYAML"
+# prog.py:2: error: Library stubs not installed for "requests"
+# prog.py:2: note: Hint: "python3 -m pip install types-requests"
+# ...
+# In this case, you can provide mypy a different source of type information, by installing a stub package.
+# A stub package is a package that contains type hints for another library, but no actual code.
+#
+# $ python3 -m pip install types-PyYAML types-requests
+# Stubs packages for a distribution are often named types-<distribution>. Note that a distribution name may be
+# different from the name of the package that you import. For example, types-PyYAML contains stubs for the yaml package.
+
+# mypy cheat sheet
+# https://mypy.readthedocs.io/en/stable/type_inference_and_annotations.html#explicit-types-for-variables
