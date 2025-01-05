@@ -43,3 +43,10 @@ print(f'{msg_decoded_bob_3=}')
 
 msg_encoded_bob = msgspec.json.encode(msg_decoded_bob_3)
 print(f'{msg_encoded_bob=}')
+
+print(f'{msg_decoded_bob_2=}')
+
+alice_2 = User("Alice_2", groups={"admin", "engineering"})
+print(alice_2)
+alice_2.email = "alice_2@email.org"
+print(alice_2)
