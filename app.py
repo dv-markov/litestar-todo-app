@@ -1,15 +1,33 @@
+from dataclasses import dataclass
 from litestar import Litestar, get
+from litestar.exceptions import HTTPException
 
-TODO_LIST: list[dict[str, str | bool]] = [
-    {"title": "Start writing TODO list", "done": True},
-    {"title": "???", "done": False},
-    {"title": "Profit", "done": False},
+# Solution Using Python Data Classes
+
+@dataclass
+class TodoItem:
+    title: str
+    done: bool
+
+
+TODO_LIST: list[TodoItem] = [
+    TodoItem(title="Start writing TODO list", done=True),
+    TodoItem(title="???", done=False),
+    TodoItem(title="Profit", done=False),
 ]
 
 
+# @get("/")
+# async def get_list(done: str) -> list[TodoItem]:
+#     if done == "1":
+#         return [item for item in TODO_LIST if item.done]
+#     if done == "0":
+#         return [item for item in TODO_LIST if not item.done]
+#     raise HTTPException(f"Invalid query parameter value: {done!r}", status_code=400)
+
 @get("/")
-async def get_list() -> list[dict[str, str | bool]]:
-    return TODO_LIST
+async def get_list(done: bool) -> list[TodoItem]:
+    return [item for item in TODO_LIST if item.done == done]
 
 
 app = Litestar([get_list])
