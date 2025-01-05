@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from litestar import Litestar, get
 from litestar.exceptions import HTTPException
 
-# Solution Using Python Data Classes
 
+# Solution Using Python Data Classes
 @dataclass
 class TodoItem:
     title: str
