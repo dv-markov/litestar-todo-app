@@ -30,11 +30,13 @@ print(f'{msg_decoded=}')
 msg_decoded_bob = msgspec.json.decode(b'{"name":"bob","groups":["123"]}', type=User)
 print(f'{msg_decoded_bob=}')
 
-# если не передать один из обязательных параметров типа field, то ошибка не сгенерится, но поле получит некорректное значение
+# если не передать один из обязательных параметров типа field, то ошибка не сгенерится,
+# но поле получит некорректное значение
 msg_decoded_bob_2 = msgspec.json.decode(b'{"name":"bob"}', type=User)
 print(f'{msg_decoded_bob_2=}')
 
-# если не передать обязательный параметр типа поле, то получим ошибку msgspec.ValidationError: Object missing required field
+# если не передать обязательный параметр типа поле, то получим ошибку:
+# msgspec.ValidationError: Object missing required field
 # msg_decoded_bob_3 = msgspec.json.decode(b'{"groups":["123"]}', type=User)
 # print(f'{msg_decoded_bob_3=}')
 
