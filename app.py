@@ -30,4 +30,13 @@ async def get_list(done: bool) -> list[TodoItem]:
     return [item for item in TODO_LIST if item.done == done]
 
 
-app = Litestar([get_list])
+# Пример II.03 - базовое использование параметров запроса
+# Составные адреса должны идти после прямых, потому что если функция имеет то же имя, она будет переопределена
+@get(path="/string-query")
+async def get_list2(done: str) -> list[TodoItem]:
+    if done == "1":
+        return [item for item in TODO_LIST if item.done]
+    return [item for item in TODO_LIST if not item.done]
+
+
+app = Litestar([get_list, get_list2])
