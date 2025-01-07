@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-from litestar import Litestar, get
-from litestar.exceptions import HTTPException
+from litestar import Litestar, get, post
 
 
 # Solution Using Python Data Classes
@@ -17,26 +16,18 @@ TODO_LIST: list[TodoItem] = [
 ]
 
 
-# @get("/")
-# async def get_list(done: str) -> list[TodoItem]:
-#     if done == "1":
-#         return [item for item in TODO_LIST if item.done]
-#     if done == "0":
-#         return [item for item in TODO_LIST if not item.done]
-#     raise HTTPException(f"Invalid query parameter value: {done!r}", status_code=400)
-
 @get("/")
-async def get_list(done: bool) -> list[TodoItem]:
+async def get_list(done: bool | None = None) -> list[TodoItem]:
+    if done is None:
+        return TODO_LIST
     return [item for item in TODO_LIST if item.done == done]
 
 
-# Пример II.03 - базовое использование параметров запроса
-# Составные адреса должны идти после прямых, потому что если функция имеет то же имя, она будет переопределена
-@get(path="/string-query")
-async def get_list2(done: str) -> list[TodoItem]:
-    if done == "1":
-        return [item for item in TODO_LIST if item.done]
-    return [item for item in TODO_LIST if not item.done]
+@post("/")
+async def add_item(data: TodoItem) -> list[TodoItem]:
+    TODO_LIST.append(data)
+    return TODO_LIST
 
 
-app = Litestar([get_list, get_list2])
+app = Litestar([get_list, add_item])
+
