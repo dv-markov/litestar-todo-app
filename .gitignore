@@ -46,3 +46,4 @@ coverage/
 *.egg-info/
 dist/
 build/
+/todo.sqlite
